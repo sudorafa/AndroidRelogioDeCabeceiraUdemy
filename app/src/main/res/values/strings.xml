@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">AndroidRelogioDeCabeceiraUdemy</string>
+    <string name="internationalization_test">Teste Internacionalização</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

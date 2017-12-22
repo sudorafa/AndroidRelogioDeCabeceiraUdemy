@@ -5,5 +5,9 @@
     android:background="#0099cc"
     tools:context="com.example.orafa.androidrelogiodecabeceiraudemy.MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/internationalization_test"/>
 
 </RelativeLayout>
