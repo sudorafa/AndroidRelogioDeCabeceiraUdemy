@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">AndroidRelogioDeCabeceiraUdemy</string>
-    <string name="internationalization_test">Teste Internacionalização</string>
-
+    <string name="battery_level">Nível da Bateria</string>
 </resources>
