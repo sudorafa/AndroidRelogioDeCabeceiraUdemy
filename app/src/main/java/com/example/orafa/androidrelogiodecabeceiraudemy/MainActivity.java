@@ -1,5 +1,10 @@
 package com.example.orafa.androidrelogiodecabeceiraudemy;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +31,17 @@ public class MainActivity extends AppCompatActivity {
     TextView mTextViewSeconds;
     @BindView(R.id.check_box_battery)
     CheckBox mCheckBoxBattery;
+    @BindView(R.id.text_view_battery)
+    TextView textViewBattery;
+
+    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //recuperar level da battery
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+            textViewBattery.setText(String.valueOf(String.format("%d%%", level)));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         //tela do app nunca bloqueia quando ele está aberto
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        //ouvir broadcast | saber quando mudar nivel da bateria
+        this.registerReceiver(this.mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     @Override
