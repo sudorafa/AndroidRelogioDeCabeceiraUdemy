@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
     private boolean mRunnableStopped = false;
+    private boolean mIsBatteryOn = true;
 
     @BindView(R.id.text_view_hour_minute)
     TextView mTextViewHourMinute;
@@ -32,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.check_box_battery)
     CheckBox mCheckBoxBattery;
     @BindView(R.id.text_view_battery)
-    TextView textViewBattery;
+    TextView mTextViewBattery;
 
     private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //recuperar level da battery
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-            textViewBattery.setText(String.valueOf(String.format("%d%%", level)));
+            mTextViewBattery.setText(String.valueOf(String.format("%d%%", level)));
         }
     };
 
@@ -53,8 +56,29 @@ public class MainActivity extends AppCompatActivity {
         //tela do app nunca bloqueia quando ele está aberto
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        //esconder barra superior do andoid | colocado FULLSCREEAM
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //ouvir broadcast | saber quando mudar nivel da bateria
         this.registerReceiver(this.mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+        this.mCheckBoxBattery.setChecked(true);
+
+    }
+
+    @OnClick(R.id.check_box_battery)
+    public void clickBattery(View view){
+        this.toggleCheckBattery();
+    }
+
+    private void toggleCheckBattery(){
+        if(this.mIsBatteryOn){
+            this.mIsBatteryOn = false;
+            this.mTextViewBattery.setVisibility(View.GONE);
+        }else{
+            this.mIsBatteryOn = true;
+            this.mTextViewBattery.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
