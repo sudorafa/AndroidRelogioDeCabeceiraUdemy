@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -36,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
     CheckBox mCheckBoxBattery;
     @BindView(R.id.text_view_battery)
     TextView mTextViewBattery;
+    @BindView(R.id.image_view_options)
+    ImageView mImageViewOptions;
+    @BindView(R.id.image_view_close)
+    ImageView getmImageViewClose;
+    @BindView(R.id.linear_layout_option)
+    LinearLayout mLinearLayoutOption;
+
 
     private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
         @Override
@@ -64,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
         this.mCheckBoxBattery.setChecked(true);
 
+        //animação inicia "close"
+        mLinearLayoutOption.animate().translationY(400);
+
     }
 
     @OnClick(R.id.check_box_battery)
@@ -79,6 +91,21 @@ public class MainActivity extends AppCompatActivity {
             this.mIsBatteryOn = true;
             this.mTextViewBattery.setVisibility(View.VISIBLE);
         }
+    }
+
+    @OnClick(R.id.image_view_options)
+    public void clickImageViewOptions(View view){
+        mLinearLayoutOption.setVisibility(View.VISIBLE);
+        mLinearLayoutOption.animate()
+                .translationY(0)
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    @OnClick(R.id.image_view_close)
+    public void clickImageViewClose(View view){
+        mLinearLayoutOption.animate()
+                .translationY(mLinearLayoutOption.getMeasuredHeight())
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
     }
 
     @Override
